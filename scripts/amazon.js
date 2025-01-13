@@ -1,5 +1,7 @@
 
 let productsHTML = '';
+let cartQuantity = 0;
+
 products.forEach(product => {
     productsHTML += `<div class="product-container">
           <div class="product-image-container">
@@ -60,6 +62,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         cart.forEach(item => {
             if (item.productId === productId) {
                 item.quantity++;
+                cartQuantity++;
                 itemFound = true;
             }
         });
@@ -68,9 +71,11 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
                 productId  ,
                 quantity : 1
             })
+            cartQuantity++;
         }
-        
-        console.log(cart);
+        document.getElementById('cart-quantity').innerHTML = cartQuantity;
+
+        console.log(cart,cartQuantity);
         
     })
 })
