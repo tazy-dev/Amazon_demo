@@ -80,15 +80,13 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         const addedTextElement = document.querySelector(`.js-added-${productId}`);
         addedTextElement.classList.add('added');
         if (addedTextTimeoutIds[productId]) {
-         console.log(addedTextTimeoutIds[productId]);
           
           clearTimeout(addedTextTimeoutIds[productId])
         } 
         addedTextTimeoutIds[productId] = setTimeout(() => {
           addedTextElement.classList.remove('added');
-          addedTextTimeoutIds[productId] = '';
+          delete addedTextTimeoutIds[productId];
         }, 2000);
-        console.log(addedTextTimeoutIds, "Timout Id");
         
     })
 })
