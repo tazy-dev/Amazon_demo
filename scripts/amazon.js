@@ -26,7 +26,7 @@ products.forEach(product => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -42,7 +42,7 @@ products.forEach(product => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -54,28 +54,41 @@ products.forEach(product => {
   
 });
 document.querySelector(".js-product-grid").innerHTML = productsHTML;
+let addedTextTimeoutIds = {};
+
 // Add event listner to all button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener('click',()=>{
-        const productId = button.dataset.productId
+        const {productId} = button.dataset
+        quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
         let itemFound = false;
         cart.forEach(item => {
             if (item.productId === productId) {
-                item.quantity++;
-                cartQuantity++;
+                item.quantity+=quantity;;
+                cartQuantity+=quantity;
                 itemFound = true;
             }
         });
         if (!itemFound) {
             cart.push({
                 productId  ,
-                quantity : 1
+                quantity 
             })
-            cartQuantity++;
+            cartQuantity+=quantity;
         }
         document.getElementById('cart-quantity').innerHTML = cartQuantity;
-
-        console.log(cart,cartQuantity);
+        const addedTextElement = document.querySelector(`.js-added-${productId}`);
+        addedTextElement.classList.add('added');
+        if (addedTextTimeoutIds[productId]) {
+         console.log(addedTextTimeoutIds[productId]);
+          
+          clearTimeout(addedTextTimeoutIds[productId])
+        } 
+        addedTextTimeoutIds[productId] = setTimeout(() => {
+          addedTextElement.classList.remove('added');
+          addedTextTimeoutIds[productId] = '';
+        }, 2000);
+        console.log(addedTextTimeoutIds, "Timout Id");
         
     })
 })
