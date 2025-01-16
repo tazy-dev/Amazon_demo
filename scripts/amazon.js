@@ -1,6 +1,9 @@
-import { addToCart } from "../data/cart.js";
+import { addToCart , cartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+
+
+document.getElementById('cart-quantity').innerHTML = cartQuantity;
 
 let productsHTML = '';
 
@@ -69,7 +72,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         var quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
         addToCart(productId,quantity);
         showAddedTCartText(productId)
-        
+        document.getElementById('cart-quantity').innerHTML = cartQuantity;
         
     })
 })
