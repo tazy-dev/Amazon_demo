@@ -1,4 +1,5 @@
-
+import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
 let productsHTML = '';
 let cartQuantity = 0;
 
@@ -59,8 +60,8 @@ let addedTextTimeoutIds = {};
 // Add event listner to all button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener('click',()=>{
-        const {productId} = button.dataset
-        quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+        const {productId} = button.dataset;
+        var quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
         let itemFound = false;
         cart.forEach(item => {
             if (item.productId === productId) {
