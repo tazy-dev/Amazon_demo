@@ -1,4 +1,7 @@
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
+export let cartQuantity = getQuantity();
+
+
 function saveToStorage(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -9,10 +12,6 @@ function getQuantity() {
     });
     return quantity;
 }
-export let cartQuantity = getQuantity();
-console.log(cartQuantity);
-
-console.log(cartQuantity);
 
 export function addToCart(productId,quantity) {
     let itemFound = false;

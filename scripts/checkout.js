@@ -3,9 +3,8 @@ import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 
-
-renderView(cart);
 renderCartQuantity(cartQuantity);
+renderView(cart);
 function renderCartQuantity(cartQuantity) {
     document.querySelector('.js-check-quantity').innerHTML = `${cartQuantity} items`;
     document.querySelector('.js-payment-items').innerHTML = ` Items (${cartQuantity})`;
@@ -102,7 +101,6 @@ document.querySelectorAll(".js-delete-quantity").forEach(
     (delBtn) => {
         delBtn.addEventListener('click', ()=>{
             const {productId} = delBtn.dataset;
-            console.log(productId);
             removeFromCart(productId);
             document.querySelector(`.js-cart-item-${productId}`).remove();
             renderCartQuantity(cartQuantity);
