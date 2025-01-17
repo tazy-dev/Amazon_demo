@@ -2,6 +2,11 @@ import { cart ,removeFromCart,cartQuantity,updateCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
+const today = dayjs()
+const deliveryDate = today.add(7,'days');
+console.log(today,deliveryDate );
+console.log(today.format('dddd, MMMM D') );
+console.log(deliveryDate.format('dddd, MMMM D') );
 
 renderCartQuantity(cartQuantity);
 renderView(cart);
