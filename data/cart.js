@@ -24,7 +24,8 @@ export function addToCart(productId,quantity) {
           if (!itemFound) {
               cart.push({
                   productId  ,
-                  quantity 
+                  quantity ,
+                  deliveryOptionId : "1"
               })
              
           }
