@@ -32,6 +32,19 @@ export function addToCart(productId,quantity) {
           saveToStorage(cart);
   }
 
+  export function updateCart(productId,quantity) {
+          cart.forEach(item => {
+              if (item.productId === productId) {
+                cartQuantity-=item.quantity;
+
+                  item.quantity=quantity;;
+              }
+          });
+
+          cartQuantity+=quantity;
+          saveToStorage(cart);
+  }
+
   export function removeFromCart(productId) { 
     cart = cart.filter(cartItem=> {
         if (cartItem.productId !== productId) {
