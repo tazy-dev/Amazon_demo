@@ -33,7 +33,7 @@ export function addToCart(productId,quantity) {
           saveToStorage(cart);
   }
 
-  export function updateCart(productId,quantity) {
+  export function updateCartQunatity(productId,quantity) {
           cart.forEach(item => {
               if (item.productId === productId) {
                 cartQuantity-=item.quantity;
@@ -58,4 +58,13 @@ export function addToCart(productId,quantity) {
 
     saveToStorage(cart);
   }
+  export function updateCartDeliveryOption(productId,deliveryOptionId) {
+    cart.forEach(item => {
+        if (item.productId === productId) {
+
+            item.deliveryOptionId=deliveryOptionId;;
+        }
+    });
+    saveToStorage(cart);
+}
   

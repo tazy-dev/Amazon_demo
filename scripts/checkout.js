@@ -1,4 +1,4 @@
-import { cart ,removeFromCart,cartQuantity,updateCart } from "../data/cart.js";
+import { cart ,removeFromCart,cartQuantity,updateCartQunatity,updateCartDeliveryOption } from "../data/cart.js";
 import deliveryOptions from "../data/delivery-options.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
@@ -6,22 +6,24 @@ import { formatCurrency } from "./utils/money.js";
 const today = dayjs()
 console.log(today.format('dddd, MMMM D') );
 
-renderCartQuantity(cartQuantity);
-renderView(cart);
+renderView()
+//renderCartQuantity(cartQuantity);
+renderView();
 function renderCartQuantity(cartQuantity) {
     document.querySelector('.js-check-quantity').innerHTML = `${cartQuantity} items`;
     document.querySelector('.js-payment-items').innerHTML = ` Items (${cartQuantity})`;
 
 }
-function renderView(cart) {
+function renderView() {
+  renderCartQuantity(cartQuantity);
     let cartItemsSectionHTML = '';
     cart.forEach(cartItem => {
         const product = products.filter(item => item.id === cartItem.productId)[0];  
-        const deliveryDay = today.add(deliveryOptions[Number(cartItem.deliveryOptionId) - 1].deliveryDays,'days');
+        const deliveryDay = calculateDeliverydate(cartItem.deliveryOptionId);
 
         cartItemsSectionHTML += `<div class="cart-item-container js-cart-item-${cartItem.productId}">
-                <div class="delivery-date">
-                  Delivery date: ${ deliveryDay.format('dddd, MMMM D')}
+                <div class="delivery-date js-delivery-date-${cartItem.productId}">
+                  Delivery date: ${ deliveryDay}
                 </div>
     
                 <div class="cart-item-details-grid">
@@ -69,7 +71,7 @@ function renderView(cart) {
     
     
     document.querySelector(".js-order-summary").innerHTML = cartItemsSectionHTML;
-}
+
 function renderDeliverySection(cartItem) {
   let deliverySectionHtml = '';
   deliveryOptions.forEach(option => {
@@ -79,7 +81,7 @@ function renderDeliverySection(cartItem) {
     ;
     const checked  = option.id === cartItem.deliveryOptionId ? "checked":'';
     deliverySectionHtml += `
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-option" data-product-id="${cartItem.productId}" data-option-id="${option.id}">
                       <input   type="radio" ${checked} class="delivery-option-input"
                         name="delivery-option-${cartItem.productId}">
                       <div>
@@ -100,11 +102,11 @@ function renderDeliverySection(cartItem) {
 }
 function validateUpdate(productId,newQuantity) {
   if (newQuantity > 0 && newQuantity <= 1000) {
-    updateCart(productId,newQuantity)
+    updateCartQunatity(productId,newQuantity)
     document.querySelector(`.js-cart-item-${productId}`).classList.remove("is-editing-quantity")
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
     document.querySelector(`.js-update-error-${productId}`).classList.remove('show-error');
-    renderCartQuantity(cartQuantity);
+    renderView();
   } else {
     document.querySelector(`.js-update-error-${productId}`).classList.add('show-error');
   }
@@ -114,8 +116,7 @@ document.querySelectorAll(".js-delete-quantity").forEach(
         delBtn.addEventListener('click', ()=>{
             const {productId} = delBtn.dataset;
             removeFromCart(productId);
-            document.querySelector(`.js-cart-item-${productId}`).remove();
-            renderCartQuantity(cartQuantity);
+            renderView();
         })
     }
 );
@@ -137,5 +138,25 @@ document.querySelectorAll(".js-save-quantity").forEach(
 
   }
 );
+function calculateDeliverydate(deliveryOptionid) {
+  var daysCount  =deliveryOptions[deliveryOptionid - 1].deliveryDays;
+  var deliverDay = today.add(daysCount, 'days')
+  return  deliverDay.format('dddd, MMMM D');
+}
+document.querySelectorAll(".js-delivery-option").forEach(
+  (deliveryOpt) => {
+    deliveryOpt.addEventListener('click', ()=>{
+          const {productId,optionId} = deliveryOpt.dataset;
+          updateCartDeliveryOption(productId,optionId);
+          renderView();
+      //     let newDeliveruDate = calculateDeliverydate(optionId);
+      //     console.log(newDeliveruDate,productId);
+          
+      // document.querySelector(`.js-delivery-date-${productId}`).innerHTML = `Delivery date: ${newDeliveruDate}`;
 
+      });
+      
+  }
+);
+}
 
