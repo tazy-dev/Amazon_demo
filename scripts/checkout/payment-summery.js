@@ -9,7 +9,7 @@ export function renderPaymentSummary() {
     let shippingCost = 0;
 
     cart.forEach(cartItem => {
-         producstCost += products.filter(item => item.id === cartItem.productId)[0].priceCents;  
+         producstCost +=products.filter(item => item.id === cartItem.productId)[0].priceCents * cartItem.quantity;  
          shippingCost  += deliveryOptions[cartItem.deliveryOptionId - 1].priceCents;
     });
     const total = producstCost + shippingCost;

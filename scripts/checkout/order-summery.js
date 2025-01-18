@@ -2,6 +2,8 @@ import { cart ,removeFromCart,cartQuantity,updateCartQunatity,updateCartDelivery
 import deliveryOptions from "../../data/delivery-options.js";
 import { products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
+import { renderPaymentSummary } from "./payment-summery.js"
+
 
 const today = dayjs()
 
@@ -102,6 +104,7 @@ function validateUpdate(productId,newQuantity) {
     document.querySelector(`.js-cart-item-${productId}`).classList.remove("is-editing-quantity")
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
     document.querySelector(`.js-update-error-${productId}`).classList.remove('show-error');
+    renderPaymentSummary();
     renderOrderSummary();
   } else {
     document.querySelector(`.js-update-error-${productId}`).classList.add('show-error');
@@ -112,6 +115,7 @@ document.querySelectorAll(".js-delete-quantity").forEach(
         delBtn.addEventListener('click', ()=>{
             const {productId} = delBtn.dataset;
             removeFromCart(productId);
+            renderPaymentSummary();
             renderOrderSummary();
         })
     }
@@ -146,6 +150,7 @@ document.querySelectorAll(".js-delivery-option").forEach(
     deliveryOpt.addEventListener('click', ()=>{
           const {productId,optionId} = deliveryOpt.dataset;
           updateCartDeliveryOption(productId,optionId);
+          renderPaymentSummary();
           renderOrderSummary();
       //     let newDeliveruDate = calculateDeliverydate(optionId);
       //     console.log(newDeliveruDate,productId);
