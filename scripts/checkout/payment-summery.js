@@ -14,7 +14,6 @@ export function renderPaymentSummary() {
     });
     const total = producstCost + shippingCost;
     const tax = total / 10;
-    console.log(total,tax);
     
     let paymentSectionHTML = `<div class="payment-summary-title">
             Order Summary

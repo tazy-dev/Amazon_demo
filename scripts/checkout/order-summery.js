@@ -9,8 +9,6 @@ const today = dayjs()
 
 function renderCartQuantity(cartQuantity) {
     document.querySelector('.js-check-quantity').innerHTML = `${cartQuantity} items`;
-    //document.querySelector('.js-payment-items').innerHTML = ` Items (${cartQuantity})`;
-
 }
 export function renderOrderSummary() {
   renderCartQuantity(cartQuantity);
@@ -138,9 +136,7 @@ document.querySelectorAll(".js-save-quantity").forEach(
 
   }
 );
-function calculateDeliverydate(deliveryOptionid) {
-  console.log(typeof (deliveryOptionid -1));
-  
+function calculateDeliverydate(deliveryOptionid) {  
   var daysCount  =deliveryOptions[deliveryOptionid - 1].deliveryDays;
   var deliverDay = today.add(daysCount, 'days')
   return  deliverDay.format('dddd, MMMM D');
@@ -152,10 +148,6 @@ document.querySelectorAll(".js-delivery-option").forEach(
           updateCartDeliveryOption(productId,optionId);
           renderPaymentSummary();
           renderOrderSummary();
-      //     let newDeliveruDate = calculateDeliverydate(optionId);
-      //     console.log(newDeliveruDate,productId);
-          
-      // document.querySelector(`.js-delivery-date-${productId}`).innerHTML = `Delivery date: ${newDeliveruDate}`;
 
       });
       
