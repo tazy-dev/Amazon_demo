@@ -1,20 +1,20 @@
 class Cart {
   constructor(storageKey) {
-    this.localStorageKey = storageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = storageKey;
+    this.#loadFromStorage();
     this.cartQuantity = this.getQuantity();
   }
   cartItems ;
-  localStorageKey ;
+  #localStorageKey ; // Make it private
   cartQuantity;
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)) || [];
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [];
     
   }
 
-  saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+  #saveToStorage() {
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
   getQuantity() {
     var quantity = 0;
@@ -41,7 +41,7 @@ class Cart {
       });
     }
     this.cartQuantity += quantity;
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   updateCartQunatity(productId, quantity) {
@@ -54,7 +54,7 @@ class Cart {
     });
 
     this.cartQuantity += quantity;
-    this.saveToStorage();
+    this.#saveToStorage();
   }
 
   removeFromCart(productId) {
@@ -67,7 +67,7 @@ class Cart {
       }
     });
 
-    this.saveToStorage();
+    this.#saveToStorage();
   }
   updateCartDeliveryOption(productId, deliveryOptionId) {
     this.cartItems.forEach((item) => {
@@ -75,7 +75,7 @@ class Cart {
         item.deliveryOptionId = deliveryOptionId;
       }
     });
-    this.this.saveToStorage();
+    this.this.#saveToStorage();
   }
 }
 
