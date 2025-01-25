@@ -1,8 +1,8 @@
-import { addToCart , cartQuantity } from "../data/cart.js";
+import { cart } from "../data/cart-class.js";
 import { products } from "../data/products.js";
 
 
-document.getElementById('cart-quantity').innerHTML = cartQuantity;
+document.getElementById('cart-quantity').innerHTML = cart.cartQuantity;
 
 let productsHTML = '';
 
@@ -45,6 +45,9 @@ products.forEach(product => {
             </select>
           </div>
 
+          ${
+            product.extraInfoHTML()
+          }
           <div class="product-spacer"></div>
 
           <div class="added-to-cart js-added-${product.id}">
@@ -69,9 +72,9 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener('click',()=>{
         const {productId} = button.dataset;
         var quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-        addToCart(productId,quantity);
+        cart.addToCart(productId,quantity);
         showAddedTCartText(productId)
-        document.getElementById('cart-quantity').innerHTML = cartQuantity;
+        document.getElementById('cart-quantity').innerHTML = cart.cartQuantity;
         
     })
 })
