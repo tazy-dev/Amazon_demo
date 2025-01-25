@@ -1,10 +1,12 @@
 import { cart } from "../data/cart-class.js";
-import { products } from "../data/products.js";
+import { products , loadProjects} from "../data/products.js";
 
+loadProjects(renderProductsGrid);
 
 document.getElementById('cart-quantity').innerHTML = cart.cartQuantity;
 
-let productsHTML = '';
+function renderProductsGrid() {
+  let productsHTML = '';
 
 
 products.forEach(product => {
@@ -92,5 +94,6 @@ function showAddedTCartText(productId) {
         }, 2000);
 }
 
+}
 
   
