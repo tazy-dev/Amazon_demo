@@ -1,8 +1,12 @@
-
 import { formatCurrency } from "../scripts/utils/money.js";
 
 class Product {
-  id;image;name;rating;priceCents;keywords;
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  keywords;
   constructor(productDetails) {
     this.id = productDetails.id;
     this.image = productDetails.image;
@@ -12,53 +16,63 @@ class Product {
     this.keywords = productDetails.keywords;
   }
 
-  getStarsUrl(){
-    return `images/ratings/rating-${this.rating.stars * 10}.png`
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
   }
-  getPrice(){
-    return `$${formatCurrency(this.priceCents)}`
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
   }
   extraInfoHTML() {
     return ``;
   }
 }
 
-class Clothing extends Product{
+class Clothing extends Product {
   type;
-    sizeChartLink; 
+  sizeChartLink;
   constructor(productDetails) {
     super(productDetails);
     this.type = productDetails.type;
     this.sizeChartLink = productDetails.sizeChartLink;
-
-    
   }
   extraInfoHTML() {
     return `<a href="${this.sizeChartLink}" target="_blank">Size Chart</a>`;
   }
-
 }
 
-export let products = []
+export let products = [];
+
+// Using the Fetch API
+export function loadProdects() {
+  return fetch("https://supersimplebackend.dev/products").then((response) => {
+    return response.json()})
+    .then((data) => {  
+      products = data.map((product) => {
+
+        if (product.type == "clothing") {
+          return new Clothing(product);
+        }
+        return new Product(product);
+      });
+    });    
+  
+}
 
 export function loadProjects(fun) {
   const xhr = new XMLHttpRequest();
 
-xhr.addEventListener("load", () =>{
-products = (JSON.parse(xhr.response)).map( product => {
-  if (product.type == "clothing") {
-    return new Clothing(product);
-
-  }
-    return new Product(product);  
-});
-fun();
+  xhr.addEventListener("load", () => {
+    products = JSON.parse(xhr.response).map((product) => {
+      if (product.type == "clothing") {
+        return new Clothing(product);
+      }
+      return new Product(product);
+    });
+    fun();
+  });
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
 }
-)
-xhr.open('GET',"https://supersimplebackend.dev/products");
-xhr.send();
-}
-
 
 // export const products = [
 //   {
@@ -725,6 +739,5 @@ xhr.send();
 
 //   }
 //     return new Product(product);
-  
-// });
 
+// });
