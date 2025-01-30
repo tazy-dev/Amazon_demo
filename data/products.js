@@ -44,7 +44,8 @@ export let products = [];
 
 // Using the Fetch API
 export async function loadProdects() {
-  const response = await fetch("https://supersimplebackend.dev/products");
+  try {
+    const response = await fetch("https://supersimplebackend.dev/products");
   const data = await response.json();
   products = data.map((product) => {
 
@@ -53,6 +54,13 @@ export async function loadProdects() {
     }
     return new Product(product);
   });    
+  } catch (error) {
+    console.log("An Error Occured");
+    
+    console.log(error);
+    
+  }
+  
   
 }
 
