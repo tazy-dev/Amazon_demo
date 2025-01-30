@@ -1,7 +1,8 @@
 import { cart } from "../data/cart-class.js";
-import { products , loadProjects} from "../data/products.js";
+import { products , loadProdects} from "../data/products.js";
 
-loadProjects(renderProductsGrid);
+await loadProdects();
+renderProductsGrid();
 
 document.getElementById('cart-quantity').innerHTML = cart.cartQuantity;
 
