@@ -87,7 +87,7 @@ function renderOrderProducts(orderProducts,orderId) {
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html?orderId=${orderId}">
+              <a href="tracking.html?orderId=${orderId}&productId=${productDetails.productId}&q=${cart.cartQuantity}">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
