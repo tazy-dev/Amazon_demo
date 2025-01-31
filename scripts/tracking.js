@@ -21,7 +21,6 @@ function renderTracking() {
   const orderday = dayjs(order.orderTime);
   
   const deliverPercentage = Math.round(today.diff(orderday, 'days') / deliverDay.diff(orderday, 'days') * 100);
-  console.log(deliverPercentage);
   
   
   let trackHTML = `
